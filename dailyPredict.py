@@ -11,4 +11,4 @@ if __name__ == "__main__":
 
 	preds = getPredictions.fetch_bet_predictions(writeToFile=False, date=today, apiKey=os.getenv("API-KEY"))
 	
-	sendMail(mailBody = getPredictions.getFilteredPredictions( preds=preds, expired=False ),ailSubject ='Match Prediction for '+ today )
+	sendMail(mailBody = getPredictions.getFilteredPredictions( preds=preds, expired=False ), mailSubject ='Match Prediction for '+ today )

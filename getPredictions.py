@@ -86,6 +86,13 @@ def predFromFile(date='2020-12-12'):
 		print(e)
 		sys.exit(1)
 
+def is_number(num):
+	""" return True if input is int or float """
+	if isinstance(num, int) or isinstance(num, float):
+		return True
+	else:
+		return False
+
 
 def getFilteredPredictions(preds, expired=False):
 	""" Return filtered predictions """
@@ -102,16 +109,23 @@ def getFilteredPredictions(preds, expired=False):
 	for p in preds['data']:
 		i += 1
 		if not p['is_expired'] or expired:
-			if p['odds'][p['prediction']] < threshold:
-				bet_output = bet_output + "[%s/%s] " % (i, predsLen )
-				bet_output = bet_output + "Country: %s, Competition: %s, %s vs. %s, Odds: %s, Prediction: %s, Start: %s\n" % (
-					p['competition_cluster'],
-					p['competition_name'],
-					p['home_team'],
-					p['away_team'],
-					p['odds'][p['prediction']],
-					p['prediction'],
-					p['start_date'])
+
+			if is_number( p['odds'][p['prediction']]):
+
+				if float(p['odds'][p['prediction']]) < threshold:
+
+					bet_output = bet_output + "[%s/%s] " % (i, predsLen )
+
+					bet_output = bet_output + "Country: %s, Competition: %s, %s vs. %s, Odds: %s, Prediction: %s, Start: %s\n" % (
+						p['competition_cluster'],
+						p['competition_name'],
+						p['home_team'],
+						p['away_team'],
+						p['odds'][p['prediction']],
+						p['prediction'],
+						p['start_date'])
+			else:
+				print('Odd is not a number. ID: ' + str(p['id']))
 
 	return bet_output
 
